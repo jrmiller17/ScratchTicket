@@ -1,0 +1,351 @@
+ <style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Zen Antique', serif;}
+body{
+    background-color: rgb(190, 255, 190);
+}
+.container{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 50%;
+    background-color: lightgreen;
+    padding: 10px;
+    
+}
+h1{
+    font-size: 3em;
+    background-color: rgb(0, 187, 0);
+    border: 1px solid rgb(0, 68, 0);
+    padding: 5px;
+    margin-bottom: 20px;
+    box-shadow: 4px 2px 5px darkgreen;
+}
+p{
+    font-size: 2em;
+    margin-left: 20px;
+    
+}
+.form{
+    display: flex;
+    align-items: center;
+}
+input{
+    font-size: 2em;
+    padding: 10px;
+    width: 70%;
+   
+}
+button{
+    padding: 5px 10px;
+    font-size: 1.6em;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    border: 2px solid darkgreen;
+    background-color: lightgreen;
+    transition: all 0.4s;
+}
+button:hover{
+    transform: translateY(-5px);
+    box-shadow: 3px 2px 4px darkgreen;
+    cursor: pointer;
+}
+#popUp, #popUp2{
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 50%;
+    background-color: lightgreen;
+    
+    padding: 15px 0;
+    visibility: hidden;
+}
+.popUp{
+    margin-left: 25px;
+}</style>
+ 
+ <div class="container">
+        <h1>Scratch Ticket Winning Numbers!</h1>
+        <p>Every scratch ticket has a set of 3 letters. Those letters decide if you won more than you think you did!
+            Input the 3 letters you see on your lottery ticket to see how much you won!
+        </p>
+        <div class="form">
+            <input type="text" placeholder="Enter in 3 letters" id="inputText" style="margin: 10px;">
+            <button id="submitButton" type="submit"> Submit</button>
+        </div>
+    </div>
+    <div id="popUp"></div>
+    <div id="popUp2"></div>
+
+<script>
+    const button = document.getElementById('submitButton');
+
+button.addEventListener('click', function(){
+    let inputArray = [];
+    
+    const inputData = document.getElementById('inputText');
+    const div = document.getElementById('popUp');
+    let string = inputData.value;
+ 
+    alerts(inputData);
+    permutate(string, inputArray);
+
+    var youWonPopUp = document.createElement('p');
+    youWonPopUp.setAttribute('class','popUp');
+    youWonPopUp.textContent = '';
+
+    for(let key of Object.keys(myObject)){
+        for(let arr of inputArray){
+             if(key == arr.toUpperCase()){
+                if(div.hasChildNodes()){
+                    div.childNodes[div.childNodes.length - 1].remove();  
+                }
+                    ifStatements(myObject, key, youWonPopUp);
+               
+                    div.appendChild(youWonPopUp);    
+                    div.style.visibility = 'visible';                  
+                
+                
+                }else if(youWonPopUp.textContent === ''){
+                    if(div.hasChildNodes()){
+                        div.childNodes[div.childNodes.length - 1].remove();  
+                    }
+                    youWonPopUp.textContent = 'Sorry, your ticket is not a winner this time! Better luck next time!';
+                    div.appendChild(youWonPopUp);
+                    div.style.visibility = 'visible';
+                }   
+                
+            }
+         
+        } 
+    return inputArray
+  
+})
+// Alerting the user if they input something wrong
+function alerts(inputData){
+    if(inputData.value.length > 3){
+        alert('Please enter only 3 letters')
+    }
+    if(inputData.value.length<3){
+        alert('Please enter 3 letters');
+    }
+
+}
+// If statements stating what the text content has to be
+function ifStatements(myObjects, key, youWonPopUp){
+
+                
+    if(myObjects[key]=='ANNUITY-NUMBEROFYEARS' || myObjects[key] == 'ANNUITY-LIFETIME' ||
+     myObjects[key] =='ENTRY-SPIN' || myObjects[key] =='ENTRY-TRIP' ||
+      myObjects[key] =='MERCHPR.A' ||myObjects[key] =='MERCHPR.B'|| myObjects[key] == 'MERCHPR.C' ||
+       myObjects[key] == 'MOVIETICKETS' || myObjects[key] == 'TRUCK'){
+
+        youWonPopUp.textContent = `CONGRATULATIONS, you won ${myObjects[key]}!! `;
+    }
+
+    else if(myObject[key]===1){
+        youWonPopUp.textContent = `CONGRATULATIONS, you won ${myObjects[key]} dollar!! `;
+    }else{
+        youWonPopUp.textContent = `CONGRATULATIONS, you won ${myObjects[key]} dollars!! `;
+    }   
+    return youWonPopUp.textContent
+}
+
+// function for getting every possible combination of the user input
+function permutate(string, inputArray){
+    for(let i = 0; i < string.length; i++){
+        let charOfString = string[i]
+        let remainingChars = string.slice(0, i) + string.slice(i + 1, string.length);
+        inputArray.push(charOfString+remainingChars);
+    
+        let remainingCharSlice = remainingChars.slice(1,2)+ remainingChars.slice(0,1) ;
+        inputArray.push(charOfString + remainingCharSlice);
+    }
+    return inputArray;
+}
+
+
+var myObject = {
+    ONE:1,
+    TWO:2,
+    THR:3,
+    FOR:4,
+    FIV:5,
+    SIX:6,
+    SVN:7,
+    EGT:8,
+    NIN:9,
+    TEN:10,
+    LVN:11,
+    TLV:12,
+    TTN:13,
+    FTN:14,
+    FFN:15,
+    SXT:16,
+    STN:17,
+    ETT:18,
+    NTN:19,
+    TWY:20,
+    TON:21,
+    TWT:22,
+    TWR:23,
+    TWF:24,
+    TWV:25,
+    TWX:26,
+    TWS:27,
+    TWE:28,
+    TWI:29,
+    TRY:30,
+    TRO:31,
+    TRT:32,
+    TRR:33,
+    TFU:34,
+    TRV:35,
+    TRX:36,
+    TRS:37,
+    TRE:38,
+    TRI:39,
+    FTY:40,
+    FTO:41,
+    FTT:42,
+    FTR:43,
+    FTF:44,
+    FTV:45,
+    FTX:46,
+    FTS:47,
+    FTE:48,
+    FTI:49,
+    FFY:50,
+    FTZ:53,
+    FFO:54,
+    FYV:55,
+    FEV:57,
+    FTG:58,
+    SXY:60,
+    SXF:64,
+    SXV:65,
+    SVT:70,
+    SVW:72,
+    SVF:75,
+    SVS:77,
+    ETY:80,
+    ETV:85,
+    ETE:88,
+    NIT:90,
+    NYN:99,
+    OHN:100,
+    OHV:107,
+    OHE:108,
+    LVH:110,
+    HTY:120,
+    HTW:122,
+    OTV:125,
+    OTG:128,
+    OTZ:130,
+    OFY:140,
+    ONF:150,
+    OHF:155,
+    OSV:177,
+    OEG:188,
+    THN:200,
+    THT:210,
+    TYO:222,
+    TTZ:230,
+    TRU:240,
+    THF:250,
+    TVX:256,
+    TRN:300,
+    FRN:400,
+    FFR:444,
+    FNZ:499,
+    FHN:500,
+    FHW:502,
+    FYW:522,
+    ZYZ:528,
+    FWZ:530,
+    FHF:555,
+    SHN:600,
+    SVH:700,
+    SNY:750,
+    SHS:770,
+    SSN:777,
+    EGN:800,
+    EHT:888,
+    NND:900,
+    NHN:999,
+    ONM:1000,
+    HNE:1019,
+    EVM:1100,
+    OWZ:1300,
+    FNN:1400,
+    OFU:1500,
+    TNZ:1999,
+    TWM:2000,
+    TYN:2100,
+    TWW:2222,
+    TVH:2500,
+    TRM:3000,
+    FTC:4000,
+    FYR:4444,
+    FVM:5000,
+    XYZ:5280,
+    FOZ:5300,
+    FRH:5400,
+    FFV:5555,
+    STZ:6000,
+    SOS:7700,
+    STS:7777,
+    EGE:8888,
+    NYH:9999,
+    TNM:10000,
+    LVM:11000,
+    TLT:12000,
+    THZ:13000,
+    FIO:15000,
+    ONZ:19999,
+    TYM:20000,
+    TYV:20005,
+    TOM:21000,
+    TZZ:23000,
+    TFM:25000,
+    TVM:25555,
+    TVN:27777,
+    TWG:28888,
+    TYY:30000,
+    TCM:35000,
+    FRM:40000,
+    FWO:42000,
+    FSN:47777,
+    FFM:50000,
+    FHZ:53000,
+    FYM:55555,
+    STT:70000,
+    SFM:75000,
+    SVV:77777,
+    OHM:100000,
+    FRX:140000,
+    FFZ:150000,
+    NON:199999,
+    TOT:200000,
+    THM:250000,
+    FZZ:253000,
+    FHM:500000,
+    SFY:750000,
+    OML:1000000,
+    TMM:3000000,
+    YRS:"ANNUITY-NUMBEROFYEARS",
+    LIF:"ANNUITY-LIFETIME",
+    ERY:"ENTRY-SPIN",
+    TRP:"ENTRY-TRIP",
+    MPA:"MERCHPR.A",
+    MPB:"MERCHPR.B",
+    MPC:"MERCHPR.C",
+    MOV:"MOVIETICKETS",
+    TRK:"TRUCK"
+}
+</script>
